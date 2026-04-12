@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Promo Bar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- BANNER -->
+    <div id="promo-bar">
+        <span id="promo-text">Envío gratis a partir de $50.000</span>
+        <a href="#" id="promo-link">Ver más</a>
+        <button id="close-btn">✖</button>
+    </div>
+
+    <!-- CONTENIDO DE PRUEBA -->
+    <div class="content">
+        <h1>Mi tienda</h1>
+        <p>Contenido de prueba...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<div class="panel">
+    <h3>Configurar Banner</h3>
+
+    <label>Texto:</label>
+    <input type="text" id="input-text" placeholder="Escribí tu promo">
+
+    <label>Color de fondo:</label>
+    <input type="color" id="input-bg">
+
+    <label>Color de texto:</label>
+    <input type="color" id="input-color">
+<div class="checkbox-row">
+    <input type="checkbox" id="toggle-banner" checked>
+    <label for="toggle-banner">Mostrar banner</label>
+</div>
+
+    <button id="save-btn">Guardar</button>
+</div>
+<script src="promo-bar.js"></script>
