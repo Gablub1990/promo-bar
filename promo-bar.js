@@ -54,7 +54,7 @@
         const close = document.createElement("button");
         close.innerText = "✖";
         close.style.position = "absolute";
-        close.style.right = "15px";
+        close.style.right = "20px";
         close.style.background = "none";
         close.style.border = "none";
         close.style.color = config.color;
@@ -72,5 +72,7 @@
 
     document.body.style.paddingTop = "48px";
 })();
+link.onmouseover = () => link.style.textDecoration = "underline";
+link.onmouseout = () => link.style.textDecoration = "none";
 
 
