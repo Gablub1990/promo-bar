@@ -18,13 +18,10 @@
     const config = { ...defaults, ...userConfig };
 
     if (!config.active) return;
-
     if (!config.mobile && window.innerWidth <= 768) return;
 
     const existingBar = document.getElementById("promo-bar-script");
-    if (existingBar) {
-        existingBar.remove();
-    }
+    if (existingBar) existingBar.remove();
 
     function formatCountdown(endValue) {
         if (!endValue) return "00:00:00";
@@ -58,16 +55,22 @@
     bar.style.display = "flex";
     bar.style.justifyContent = "center";
     bar.style.alignItems = "center";
-    bar.style.gap = "16px";
-    bar.style.padding = "12px 20px";
+    bar.style.gap = "14px";
+    bar.style.padding = "12px 48px 12px 16px";
     bar.style.fontSize = "14px";
     bar.style.fontFamily = "Arial, sans-serif";
+    bar.style.fontWeight = "600";
+    bar.style.lineHeight = "1.3";
     bar.style.zIndex = "9999";
     bar.style.boxSizing = "border-box";
     bar.style.textAlign = "center";
+    bar.style.minHeight = "48px";
+    bar.style.boxShadow = "0 2px 10px rgba(0,0,0,0.12)";
+    bar.style.flexWrap = "wrap";
 
     const text = document.createElement("span");
     text.id = "promo-bar-text";
+    text.style.whiteSpace = "nowrap";
 
     if (config.mode === "countdown") {
         text.textContent = config.text || `Oferta termina en ${formatCountdown(config.end)}`;
@@ -84,8 +87,10 @@
         link.innerText = config.linkText || "Ver más";
         link.style.color = "#00e5ff";
         link.style.textDecoration = "none";
-        link.style.fontWeight = "bold";
+        link.style.fontWeight = "700";
+        link.style.whiteSpace = "nowrap";
         link.target = "_blank";
+        link.rel = "noopener noreferrer";
 
         link.onmouseover = () => {
             link.style.textDecoration = "underline";
@@ -100,19 +105,42 @@
 
     if (config.closable) {
         const close = document.createElement("button");
-        close.innerText = "✖";
+        close.innerText = "✕";
         close.setAttribute("aria-label", "Cerrar banner");
         close.style.position = "absolute";
-        close.style.right = "15px";
-        close.style.background = "none";
+        close.style.right = "12px";
+        close.style.top = "50%";
+        close.style.transform = "translateY(-50%)";
+        close.style.width = "28px";
+        close.style.height = "28px";
+        close.style.display = "flex";
+        close.style.alignItems = "center";
+        close.style.justifyContent = "center";
+        close.style.background = "transparent";
         close.style.border = "none";
+        close.style.borderRadius = "999px";
         close.style.color = config.color;
         close.style.cursor = "pointer";
         close.style.fontSize = "16px";
         close.style.lineHeight = "1";
+        close.style.opacity = "0.9";
+
+        close.onmouseover = () => {
+            close.style.background = "rgba(255,255,255,0.12)";
+        };
+
+        close.onmouseout = () => {
+            close.style.background = "transparent";
+        };
 
         close.onclick = () => {
-            bar.style.display = "none";
+            const barHeight = bar.offsetHeight;
+            bar.remove();
+
+            const currentPaddingTop =
+                parseInt(window.getComputedStyle(document.body).paddingTop, 10) || 0;
+
+            document.body.style.paddingTop = `${Math.max(currentPaddingTop - barHeight, 0)}px`;
         };
 
         bar.appendChild(close);
@@ -124,7 +152,17 @@
     const currentPaddingTop = parseInt(window.getComputedStyle(document.body).paddingTop, 10) || 0;
     document.body.style.paddingTop = `${currentPaddingTop + barHeight}px`;
 
+    if (window.innerWidth <= 768) {
+        bar.style.fontSize = "13px";
+        bar.style.padding = "10px 40px 10px 12px";
+        bar.style.gap = "10px";
+        text.style.whiteSpace = "normal";
+        text.style.maxWidth = "70%";
+    }
+
     if (config.mode === "countdown" && config.end) {
+        const baseText = config.text || "Oferta termina en";
+
         const interval = setInterval(() => {
             if (!document.body.contains(bar)) {
                 clearInterval(interval);
@@ -139,11 +177,7 @@
                 return;
             }
 
-            text.textContent = config.text.includes("Oferta")
-                ? `${config.text.split(" ").slice(0, -1).join(" ")} ${countdownText}`
-                : `${config.text} ${countdownText}`;
+            text.textContent = `${baseText} ${countdownText}`;
         }, 1000);
     }
 })();
-
-

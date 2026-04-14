@@ -207,7 +207,9 @@ function updatePreview() {
     previewBar.style.display = panelConfig.behavior.active ? "flex" : "none";
 
     previewLink.style.color = panelConfig.styles.buttonColor;
-    previewClose.style.display = panelConfig.behavior.closable ? "block" : "none";
+    previewLink.style.fontWeight = "700";
+    previewLink.style.textDecoration = "none";
+    previewClose.style.display = panelConfig.behavior.closable ? "flex" : "none";
 
     if (panelConfig.type === "announcement") {
         previewText.textContent = panelConfig.content.text;
